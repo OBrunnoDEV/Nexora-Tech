@@ -44,30 +44,6 @@ nexora-tech/
 ├── README.md
 └── PROJECT.md
 
-
-Essa parte mostra **como o projeto está organizado**.
-
-A ideia de cada item é:
-
-```text
-index.html
-→ estrutura principal da página
-
-CSS/style.css
-→ aparência e responsividade
-
-JS/script.js
-→ interações e comportamento
-
-img/
-→ imagens dos produtos e elementos visuais
-
-README.md
-→ apresentação pública do projeto
-
-PROJECT.md
-→ regras e documentação interna da equipe
-
 ## Status do projeto
 
 ### Concluído
