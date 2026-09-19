@@ -25,12 +25,6 @@ carrinho.forEach(function(produto) {
 botoesCarrinho.forEach(function(botao) {
     botao.addEventListener("click", function() {
 
-        botao.textContent = "Adicionado ✓";
-
-        setTimeout(function() {
-            botao.textContent = "Adicionar ao Carrinho";
-        }, 500);
-
         const cardProduto = botao.closest(".produto-card");
 
         const nomeProduto = cardProduto.querySelector("h3").textContent;
@@ -47,35 +41,36 @@ botoesCarrinho.forEach(function(botao) {
         return produto.nome === nomeProduto;
 });
 
-        console.log(produtoExistente);
-
         if (produtoExistente) {
-            produtoExistente.quantidade++;
+
+            if (produtoExistente.quantidade < 10) {
+                produtoExistente.quantidade++;
+                totalCarrinho += precoNumerico;
+
+                botao.textContent = "Adicionado ✓";
+            } else {
+                botao.textContent = "Limite atingido";
+            }
+
         } else {
+
             carrinho.push({
                 nome: nomeProduto,
                 preco: precoNumerico,
                 quantidade: 1
             });
+
+            totalCarrinho += precoNumerico;
+
+            botao.textContent = "Adicionado ✓";
         }
 
-        totalCarrinho += precoNumerico;
+        setTimeout(function() {
+            botao.textContent = "Adicionar ao Carrinho";
+        }, 800);
 
         atualizarCarrinho();
 
-        const totalFormatado = totalCarrinho.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-        });
-
-        
-
-        console.log(totalCarrinho);
-
-        console.log(carrinho);
-
-        console.log(nomeProduto);
-        console.log(precoNumerico);
 
         });
 
@@ -199,12 +194,18 @@ function atualizarCarrinho() {
 
         botaoAdicionar.classList.add("botao-quantidade");
 
+        if (produto.quantidade >= 10) {
+        botaoAdicionar.disabled = true;
+    }
+
         botaoAdicionar.addEventListener("click", function() {
-            produto.quantidade++;
+            if (produto.quantidade < 10) {
+                produto.quantidade++;
 
-            totalCarrinho += produto.preco;
+                totalCarrinho += produto.preco;
 
-            atualizarCarrinho();
+                atualizarCarrinho();
+            }
         });
 
 
@@ -238,24 +239,35 @@ function atualizarCarrinho() {
 
 }
         
-            botaoLimparCarrinho.addEventListener("click", function() {
-        carrinho.length = 0;
-        totalCarrinho = 0;
+        botaoLimparCarrinho.addEventListener("click", function() {
+            const confirmarLimpeza = confirm(
+                "Deseja realmente limpar todo o carrinho?"
+            );
 
-        atualizarCarrinho();
-        
-    });
+            if (confirmarLimpeza) {
+                carrinho.length = 0;
+                totalCarrinho = 0;
+
+                atualizarCarrinho();
+            }
+        });
 
         botaoFinalizarCompra.addEventListener("click", function() {
             if (carrinho.length === 0) {
                 alert("Seu carrinho está vazio.");
             } else {
-                alert("Compra finalizada com sucesso!");
+                const confirmarCompra = confirm(
+                    "Deseja realmente finalizar a compra?"
+                );
 
-                carrinho.length = 0;
-                totalCarrinho = 0;
+                if (confirmarCompra) {
+                    alert("Compra finalizada com sucesso!");
 
-                atualizarCarrinho();
+                    carrinho.length = 0;
+                    totalCarrinho = 0;
+
+                    atualizarCarrinho();
+                }
             }
         });
     
