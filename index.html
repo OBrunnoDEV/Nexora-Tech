@@ -18,7 +18,7 @@
             <a href="#">Inicio</a>
             <a href="#">Produtos</a>
             <a href="#">Contato</a>
-            <a href="#">Carrinho</a>
+            <a href="#carrinho" id="carrinho-contador">Carrinho (0)</a>
         </nav>
     </header>
 
@@ -102,6 +102,7 @@
         </div>
         </section>
 
+
         <section class="newsletter">   
             <h2>Fique por dentro das novidades</h2>
             <p>Suba de nível, cadastre-se para receber novidades, lançamentos e ofertas da Nexora Tech.</p>
@@ -117,11 +118,27 @@
 
             </form>   
         </section>
+
+        <section id="carrinho" class="carrinho-area">
+            <h2>Seu carrinho</h2>
+
+            <div id="lista-carrinho"></div>
+
+            <p id="total-carrinho">Total: R$ 0,00</p>
+
+            <button id="limpar-carrinho">Limpar carrinho</button>
+
+            <button id="finalizar-compra">Finalizar compra</button>
+        </section>
+
     </main>
 
         <footer>
         <p>&copy; 2026 Nexora Tech - Projeto acadêmico</p>
     </footer>
+
+    <script src="JS/script.js"></script>
+
 </body>
 
 </html>
