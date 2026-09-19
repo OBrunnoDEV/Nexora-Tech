@@ -8,9 +8,19 @@ const totalCarrinhoElemento = document.getElementById("total-carrinho");
 
 const botaoLimparCarrinho = document.getElementById("limpar-carrinho");
 
-const carrinho = [];
+const botaoFinalizarCompra = document.getElementById("finalizar-compra");
+
+const carrinhoSalvo = localStorage.getItem("carrinho");
+
+const carrinho = carrinhoSalvo
+    ? JSON.parse(carrinhoSalvo)
+    : [];
 
 let totalCarrinho = 0;
+
+carrinho.forEach(function(produto) {
+    totalCarrinho += produto.preco * produto.quantidade;
+});
 
 botoesCarrinho.forEach(function(botao) {
     botao.addEventListener("click", function() {
@@ -68,15 +78,20 @@ botoesCarrinho.forEach(function(botao) {
         console.log(precoNumerico);
 
         });
+
 });
 
 function atualizarCarrinho() {
     listaCarrinho.innerHTML = "";
 
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+
     if (carrinho.length === 0) {
         botaoLimparCarrinho.style.display = "none";
+        botaoFinalizarCompra.style.display = "none";
     } else {
         botaoLimparCarrinho.style.display = "block";
+        botaoFinalizarCompra.style.display = "inline-block";
     }
 
     const totalFormatado = totalCarrinho.toLocaleString("pt-BR", {
@@ -132,6 +147,20 @@ function atualizarCarrinho() {
             `Quantidade: ${produto.quantidade}`;
 
         infoProduto.appendChild(quantidadeItem);
+
+        const subtotalItem = document.createElement("span");
+
+        const subtotal = produto.preco * produto.quantidade;
+
+        subtotalItem.textContent =
+            `Subtotal: ${subtotal.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL"
+            })}`;
+
+        subtotalItem.classList.add("subtotal-item");
+
+        infoProduto.appendChild(subtotalItem);
         
         item.appendChild(infoProduto);
         
@@ -159,6 +188,8 @@ function atualizarCarrinho() {
             }
 
             atualizarCarrinho();
+
+            
         });
 
 
@@ -206,6 +237,7 @@ function atualizarCarrinho() {
     });
 
 }
+        
             botaoLimparCarrinho.addEventListener("click", function() {
         carrinho.length = 0;
         totalCarrinho = 0;
@@ -213,5 +245,18 @@ function atualizarCarrinho() {
         atualizarCarrinho();
         
     });
+
+        botaoFinalizarCompra.addEventListener("click", function() {
+            if (carrinho.length === 0) {
+                alert("Seu carrinho está vazio.");
+            } else {
+                alert("Compra finalizada com sucesso!");
+
+                carrinho.length = 0;
+                totalCarrinho = 0;
+
+                atualizarCarrinho();
+            }
+        });
     
         atualizarCarrinho();
