@@ -272,3 +272,33 @@ function atualizarCarrinho() {
         });
     
         atualizarCarrinho();
+
+        const formulario = document.getElementById("form-newsletter");
+        const nome = document.getElementById("nome");
+        const email = document.getElementById("email");
+        const mensagem = document.getElementById("mensagem-formulario");
+        console.log(formulario);
+
+        formulario.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const valorNome = nome.value.trim();
+    const valorEmail = email.value.trim();
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (valorNome === "") {
+    mensagem.textContent = "Por favor, preencha seu nome.";
+    return;
+}
+    if (valorEmail === "") {
+    mensagem.textContent = "Por favor, preencha seu e-mail.";
+    return;
+}
+    if (!emailValido.test(valorEmail)) {
+    mensagem.textContent = "Por favor, digite um e-mail válido.";
+    return;
+}
+    mensagem.textContent = "Cadastro realizado com sucesso!";
+    nome.value = "";
+    email.value = "";
+
+});
